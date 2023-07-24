@@ -1,13 +1,12 @@
-import { getProducts } from '@/service/products';
+import MeowArticle from '@/components/MeowArticle';
+import { getProducts, Product } from '@/service/products';
 import Link from 'next/link';
 
-import MeowArticle from '@/components/MeowArticle';
+type Props = {
+  products: Product[];
+};
 
-// export const revalidate = 3;
-
-export default async function ProductsPage() {
-  const products = await getProducts();
-
+export default function SSGPage({ products }: Props) {
   return (
     <>
       <h1>제품 소개 페이지!</h1>
@@ -21,4 +20,11 @@ export default async function ProductsPage() {
       <MeowArticle />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const products = await getProducts();
+  return {
+    props: { products },
+  };
 }
